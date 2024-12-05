@@ -12,3 +12,54 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Rental {
+  rental_id    Int      @id @default(autoincrement())
+  rental_date  DateTime
+  inventory_id Int
+  customer_id  Int
+  return_date  DateTime
+  staff_id     Int
+  last_update  DateTime
+
+  @@map("rental")
+}
+
+model Customer {
+  customer_id Int      @id @default(autoincrement())
+  store_id    Int
+  first_name  String
+  last_name   String
+  email       String
+  address_id  Int
+  active      Int
+  create_date DateTime
+  last_update DateTime
+
+  @@map("customer")
+}
+
+enum MpaaRating {
+  G
+  PG
+  PG_13 @map("PG-13")
+  R
+  NC_17 @map("NC-17")
+}
+
+model Film {
+  film_id              Int        @id @default(autoincrement())
+  title                String
+  description          String
+  release_year         Int
+  language_id          Int
+  original_language_id Int?
+  rental_duration      Int
+  rental_rate          Float
+  length               Int
+  replacement_cost     Float
+  rating               MpaaRating @default(G)
+  last_update          DateTime
+
+  @@map("film")
+}
