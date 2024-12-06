@@ -20,8 +20,10 @@ export class RentalService {
         throw new NotFoundException(`Customer with ID ${createRentalDto.customer_id} not found`);
     }
 
+
     const rentalDate = DateTime.fromISO(createRentalDto.rental_date.toString(), {zone: customer.timezone}).toUTC();
-    const returnDate = DateTime.fromISO(createRentalDto.return_date.toString(), {zone: customer.timezone}).toUTC();
+    let returnDate = DateTime.fromISO(createRentalDto.return_date.toString(), {zone: customer.timezone}).toUTC();
+
     console.log(rentalDate);
     console.log(returnDate);
     const rentalDuration = returnDate.diff(rentalDate, 'days').days;
@@ -37,6 +39,10 @@ export class RentalService {
         last_update: new Date(),
       }
     });
+
+    returnDate = returnDate.setZone(customer.timezone).set({hour: 12, minute: 0, second: 0}).toUTC()
+    console.log(returnDate);
+
     await this.prisma.planifiedTask.create({
       data: {
         type: 'J-3',
