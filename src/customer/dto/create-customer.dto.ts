@@ -23,4 +23,8 @@ export class CreateCustomerDto {
     @IsInt()
     @IsNotEmpty()
     store_id: number;
+
+    @IsString()
+    @IsNotEmpty()
+    timezone: string
 }

@@ -31,4 +31,9 @@ export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {
     @IsInt()
     @IsNotEmpty()
     store_id?: number;
+
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    timezone?: string
 }
